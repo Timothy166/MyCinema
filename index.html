@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>极速纯净影院 - 免费在线观看VIP影视</title>
+    <meta name="description" content="免费在线观看爱奇艺、腾讯视频、优酷、芒果TV等平台VIP影视资源，无广告纯净播放体验，支持搜索和链接解析两种模式">
+    <meta name="keywords" content="免费VIP视频,在线看电影,影视解析,无广告播放,爱奇艺解析,腾讯视频解析">
+    <meta property="og:title" content="极速纯净影院">
+    <meta property="og:description" content="全网VIP视频免费看，无广告纯净播放">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#667eea">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/hls.js/dist/hls.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 30px 20px;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* 主卡片容器 */
+        .main-card {
+            width: 100%;
+            max-width: 480px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        /* 顶部横幅 */
+        .banner {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(30%, 30%);
+            }
+        }
+
+        .banner h1 {
+            color: #fff;
+            font-size: 32px;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1;
+            letter-spacing: 4px;
+        }
+
+        .banner p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            margin-top: 10px;
+            z-index: 1;
+        }
+
+        /* 内容区 */
+        .content {
+            padding: 24px;
+        }
+
+        /* 公告滚动 */
+        .notice {
+            background: linear-gradient(90deg, #fff3cd, #ffeeba);
+            padding: 10px 16px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #856404;
+            text-align: center;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        /* 视频平台按钮组 */
+        .platform-section {
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::before {
+            content: '🎬';
+        }
+
+        .platform-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .platform-btn {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border: none;
+            border-radius: 12px;
+            padding: 14px 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+
+        .platform-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .platform-btn img {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+        }
+
+        .platform-btn span {
+            font-size: 12px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* 爱奇艺 */
+        .platform-btn.iqiyi {
+            background: linear-gradient(135deg, #00be06 0%, #00a305 100%);
+        }
+
+        .platform-btn.iqiyi span {
+            color: #fff;
+        }
+
+        /* 腾讯 */
+        .platform-btn.tencent {
+            background: linear-gradient(135deg, #ff6a00 0%, #ee5500 100%);
+        }
+
+        .platform-btn.tencent span {
+            color: #fff;
+        }
+
+        /* 优酷 */
+        .platform-btn.youku {
+            background: linear-gradient(135deg, #1e90ff 0%, #0070dd 100%);
+        }
+
+        .platform-btn.youku span {
+            color: #fff;
+        }
+
+        /* 芒果 */
+        .platform-btn.mango {
+            background: linear-gradient(135deg, #ff8c00 0%, #ff6600 100%);
+        }
+
+        .platform-btn.mango span {
+            color: #fff;
+        }
+
+        /* B站 */
+        .platform-btn.bilibili {
+            background: linear-gradient(135deg, #fb7299 0%, #f25d8e 100%);
+        }
+
+        .platform-btn.bilibili span {
+            color: #fff;
+        }
+
+        /* 搜狐 */
+        .platform-btn.sohu {
+            background: linear-gradient(135deg, #d43c33 0%, #c0332a 100%);
+        }
+
+        .platform-btn.sohu span {
+            color: #fff;
+        }
+
+        /* 分隔线 */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #ddd, transparent);
+            margin: 20px 0;
+        }
+
+        /* 搜索区域 */
+        .search-section {
+            margin-bottom: 20px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 16px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 50px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .search-input:focus {
+            border-color: #667eea;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-input::placeholder {
+            color: #aaa;
+        }
+
+        /* 路线选择 */
+        .route-section {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .route-btn {
+            padding: 10px 24px;
+            border: 2px solid #e9ecef;
+            border-radius: 50px;
+            background: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+            transition: all 0.3s ease;
+        }
+
+        .route-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .route-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* 主按钮 */
+        .main-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(238, 90, 90, 0.4);
+        }
+
+        .main-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(238, 90, 90, 0.5);
+        }
+
+        .main-btn:active {
+            transform: translateY(0);
+        }
+
+        /* 双按钮组 */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .btn-group .main-btn {
+            flex: 1;
+            padding: 14px 12px;
+            font-size: 15px;
+        }
+
+        /* 搜索按钮 - 紫色 */
+        .search-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .search-btn:hover {
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        /* 解析按钮 - 绿色 */
+        .parse-btn {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+
+        .parse-btn:hover {
+            box-shadow: 0 10px 30px rgba(17, 153, 142, 0.4);
+        }
+
+        /* 按钮高亮推荐状态 */
+        .btn-recommended {
+            animation: btnPulse 1.5s ease-in-out infinite;
+            position: relative;
+        }
+
+        .btn-recommended::after {
+            content: '推荐';
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff6b6b;
+            color: #fff;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+
+        @keyframes btnPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+            }
+        }
+
+        /* 状态提示 */
+        #status {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 14px;
+            color: #666;
+            min-height: 20px;
+        }
+
+        /* 播放器容器 - 默认隐藏 */
+        .player-section {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .player-section.show {
+            display: block;
+        }
+
+        #dplayer {
+            width: 100%;
+            height: 270px;
+            background: #000;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 选集区域 */
+        .episodes-section {
+            margin-top: 16px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .ep-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .ep-btn {
+            background: #f0f0f0;
+            padding: 10px 8px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            color: #333;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .ep-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .ep-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            padding: 16px;
+            font-size: 12px;
+            color: #999;
+            border-top: 1px solid #eee;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        /* 滚动条美化 */
+        .episodes-section::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .episodes-section::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .episodes-section::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 3px;
+        }
+
+        .episodes-section::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main-card">
+        <!-- 顶部横幅 -->
+        <div class="banner">
+            <h1>🎬 极速纯净影院</h1>
+            <p>全网VIP视频免费看 · 无广告纯净播放</p>
+        </div>
+
+        <div class="content">
+            <!-- 公告 -->
+            <div class="notice">
+                💡 搜索剧名看全集 · 粘贴链接解析VIP
+            </div>
+
+            <!-- 视频平台入口 -->
+            <div class="platform-section">
+                <div class="section-title">去官网找资源</div>
+                <div class="platform-grid">
+                    <a href="https://www.iqiyi.com/" target="_blank" class="platform-btn iqiyi">
+                        <span>🎬 爱奇艺</span>
+                    </a>
+                    <a href="https://v.qq.com/" target="_blank" class="platform-btn tencent">
+                        <span>📺 腾讯视频</span>
+                    </a>
+                    <a href="https://www.youku.com/" target="_blank" class="platform-btn youku">
+                        <span>🎥 优酷</span>
+                    </a>
+                    <a href="https://www.mgtv.com/" target="_blank" class="platform-btn mango">
+                        <span>🥭 芒果TV</span>
+                    </a>
+                    <a href="https://www.bilibili.com/" target="_blank" class="platform-btn bilibili">
+                        <span>📱 B站</span>
+                    </a>
+                    <a href="https://tv.sohu.com/" target="_blank" class="platform-btn sohu">
+                        <span>🔴 搜狐</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- 搜索区域 -->
+            <div class="search-section">
+                <div class="input-wrapper">
+                    <input type="text" id="keyword" class="search-input" placeholder="输入剧名搜索 或 粘贴视频链接解析..."
+                        onkeypress="if(event.keyCode==13) handleSearch()">
+                </div>
+
+                <!-- 路线选择 -->
+                <div class="route-section">
+                    <button class="route-btn active" data-route="1" onclick="selectRoute(1)">线路1</button>
+                    <button class="route-btn" data-route="2" onclick="selectRoute(2)">线路2</button>
+                    <button class="route-btn" data-route="3" onclick="selectRoute(3)">线路3</button>
+                </div>
+
+                <!-- 双按钮组 -->
+                <div class="btn-group">
+                    <button id="searchBtn" class="main-btn search-btn" onclick="doSearch()">🔍 搜索影视</button>
+                    <button id="parseBtn" class="main-btn parse-btn" onclick="doParse()">🎬 解析链接</button>
+                </div>
+
+                <div id="status"></div>
+            </div>
+
+            <!-- 播放器区域 -->
+            <div class="player-section" id="playerSection">
+                <div id="dplayer"></div>
+                <div class="episodes-section">
+                    <div id="episodes" class="ep-grid"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="footer">
+            内容仅供学习参考 · 请支持正版
+        </div>
+    </div>
+
+    <script>
+        let dp = null;
+        let currentRoute = 1;
+
+        // 选择路线
+        function selectRoute(route) {
+            currentRoute = route;
+            document.querySelectorAll('.route-btn').forEach(btn => {
+                btn.classList.toggle('active', parseInt(btn.dataset.route) === route);
+            });
+        }
+
+        // 初始化播放器
+        function initPlayer() {
+            if (dp) {
+                dp.destroy();
+            }
+            dp = new DPlayer({
+                container: document.getElementById('dplayer'),
+                video: { url: '', type: 'auto' },
+                theme: '#667eea',
+                autoplay: false,
+                preload: 'auto',
+                volume: 0.7,
+                mutex: true,
+                screenshot: true,
+                hotkey: true
+            });
+
+            dp.on('canplay', function () {
+                updateStatus('✅ 视频加载完成', '#28a745');
+            });
+
+            dp.on('error', function () {
+                updateStatus('❌ 播放出错，请尝试切换线路', '#dc3545');
+            });
+        }
+
+        // 更新状态
+        function updateStatus(text, color = '#666') {
+            const status = document.getElementById('status');
+            status.innerText = text;
+            status.style.color = color;
+        }
+
+        // 显示播放器
+        function showPlayer() {
+            document.getElementById('playerSection').classList.add('show');
+            if (!dp) initPlayer();
+        }
+
+        // 处理搜索/解析（保留向后兼容）
+        async function handleSearch() {
+            const input = document.getElementById('keyword').value.trim();
+            if (!input) {
+                updateStatus('⚠️ 请输入剧名或视频网址', '#ffc107');
+                return;
+            }
+
+            // 判断是否为URL
+            if (isUrl(input)) {
+                doParse();
+            } else {
+                doSearch();
+            }
+        }
+
+        // 判断是否为URL
+        function isUrl(str) {
+            return str.startsWith('http://') || str.startsWith('https://');
+        }
+
+        // 搜索按钮点击
+        function doSearch() {
+            const input = document.getElementById('keyword').value.trim();
+            if (!input) {
+                updateStatus('⚠️ 请输入影视剧名称', '#ffc107');
+                return;
+            }
+            if (isUrl(input)) {
+                updateStatus('💡 检测到链接，建议点击「解析链接」按钮', '#667eea');
+                return;
+            }
+            searchVideo(input);
+        }
+
+        // 解析按钮点击
+        function doParse() {
+            const input = document.getElementById('keyword').value.trim();
+            if (!input) {
+                updateStatus('⚠️ 请粘贴视频链接', '#ffc107');
+                return;
+            }
+            if (!isUrl(input)) {
+                updateStatus('💡 这不是链接，建议点击「搜索影视」按钮', '#667eea');
+                return;
+            }
+            parseUrl(input);
+        }
+
+        // 智能检测输入内容，高亮推荐按钮
+        function updateButtonRecommendation() {
+            const input = document.getElementById('keyword').value.trim();
+            const searchBtn = document.getElementById('searchBtn');
+            const parseBtn = document.getElementById('parseBtn');
+
+            // 清除所有推荐状态
+            searchBtn.classList.remove('btn-recommended');
+            parseBtn.classList.remove('btn-recommended');
+
+            if (!input) return;
+
+            if (isUrl(input)) {
+                parseBtn.classList.add('btn-recommended');
+            } else {
+                searchBtn.classList.add('btn-recommended');
+            }
+        }
+
+        // 清理URL，移除追踪参数
+        function cleanVideoUrl(url) {
+            try {
+                // 保留基本URL，移除?后的所有追踪参数
+                const urlObj = new URL(url);
+
+                // 针对不同平台的URL格式处理
+                // 腾讯视频: https://v.qq.com/x/cover/xxx/xxx.html?params -> 保留.html前的部分
+                // 爱奇艺: https://www.iqiyi.com/v_xxx.html?params -> 保留.html前的部分
+                // 优酷: https://v.youku.com/v_show/id_xxx.html?params -> 保留.html前的部分
+
+                // 通用处理：移除所有查询参数
+                const cleanUrl = urlObj.origin + urlObj.pathname;
+                console.log('原始URL:', url);
+                console.log('清理后URL:', cleanUrl);
+                return cleanUrl;
+            } catch (e) {
+                console.error('URL清理失败:', e);
+                return url; // 如果解析失败，返回原始URL
+            }
+        }
+
+        // 存储当前电视剧信息
+        let currentSeriesInfo = null;
+
+        // 解析平台URL，提取电视剧信息
+        function parseSeriesInfo(url) {
+            const cleanedUrl = cleanVideoUrl(url);
+            let platform = '';
+            let seriesId = '';
+            let episodeId = '';
+
+            try {
+                const urlObj = new URL(cleanedUrl);
+                const pathname = urlObj.pathname;
+
+                // 腾讯视频: https://v.qq.com/x/cover/[seriesId]/[episodeId].html
+                if (urlObj.hostname.includes('qq.com')) {
+                    platform = 'qq';
+                    const match = pathname.match(/\/x\/cover\/([^\/]+)\/([^\.]+)\.html/);
+                    if (match) {
+                        seriesId = match[1];
+                        episodeId = match[2];
+                    }
+                }
+                // 爱奇艺: https://www.iqiyi.com/v_[episodeId].html 或 a_[seriesId].html
+                else if (urlObj.hostname.includes('iqiyi.com')) {
+                    platform = 'iqiyi';
+                    const vMatch = pathname.match(/\/v_([^\.]+)\.html/);
+                    const aMatch = pathname.match(/\/a_([^\.]+)\.html/);
+                    if (vMatch) {
+                        episodeId = vMatch[1];
+                    }
+                    if (aMatch) {
+                        seriesId = aMatch[1];
+                    }
+                }
+                // 优酷: https://v.youku.com/v_show/id_[episodeId].html
+                else if (urlObj.hostname.includes('youku.com')) {
+                    platform = 'youku';
+                    const match = pathname.match(/id_([^\.]+)/);
+                    if (match) {
+                        episodeId = match[1];
+                    }
+                }
+                // 芒果TV
+                else if (urlObj.hostname.includes('mgtv.com')) {
+                    platform = 'mgtv';
+                }
+                // B站
+                else if (urlObj.hostname.includes('bilibili.com')) {
+                    platform = 'bilibili';
+                }
+            } catch (e) {
+                console.error('解析URL失败:', e);
+            }
+
+            return { platform, seriesId, episodeId, cleanedUrl };
+        }
+
+        // 构建选集URL（根据平台）
+        function buildEpisodeUrl(platform, seriesId, episodeId, baseUrl) {
+            switch (platform) {
+                case 'qq':
+                    // 腾讯视频格式
+                    return `https://v.qq.com/x/cover/${seriesId}/${episodeId}.html`;
+                default:
+                    return baseUrl;
+            }
+        }
+
+        // 解析URL
+        async function parseUrl(url) {
+            updateStatus('🔍 正在解析视频地址...', '#667eea');
+            showPlayer();
+
+            // 先清理URL中的追踪参数
+            const cleanedUrl = cleanVideoUrl(url);
+
+            // 解析电视剧信息
+            const seriesInfo = parseSeriesInfo(url);
+            currentSeriesInfo = seriesInfo;
+            console.log('电视剧信息:', seriesInfo);
+
+            // 多个解析接口备选（纯净无广告优先）
+            const parseApis = [
+                // 线路1: 虾米解析 - 纯净无广告 ✅ 推荐
+                'https://jx.xmflv.com/?url=',
+                // 线路2: 爱豆解析 - 稳定备用
+                'https://jx.aidouer.net/?url=',
+                // 线路3: M3U8解析 - 稳定备用
+                'https://jx.m3u8.tv/jiexi/?url='
+            ];
+
+            const finalUrl = parseApis[currentRoute - 1] + encodeURIComponent(cleanedUrl);
+
+            // 创建iframe解析
+            const dplayerDiv = document.getElementById('dplayer');
+            const listDiv = document.getElementById('episodes');
+
+            // 添加加载动画
+            dplayerDiv.innerHTML = `
+                <div style="width:100%;height:100%;display:flex;justify-content:center;align-items:center;background:#1a1a2e;">
+                    <div style="color:#fff;font-size:16px;">⏳ 视频解析中...</div>
+                </div>
+            `;
+
+            // 延迟插入iframe
+            setTimeout(() => {
+                // 使用sandbox限制iframe行为，阻止广告弹窗
+                // sandbox="allow-scripts allow-same-origin" 阻止弹窗和顶级导航
+                dplayerDiv.innerHTML = `
+                    <div style="position:relative;width:100%;height:100%;">
+                        <iframe 
+                            src="${finalUrl}" 
+                            style="width:100%;height:100%;border:none;" 
+                            allowfullscreen
+                            referrerpolicy="no-referrer"
+                            sandbox="allow-scripts allow-same-origin allow-presentation allow-forms"
+                        ></iframe>
+                    </div>
+                `;
+                updateStatus('✅ 解析成功，正在播放', '#28a745');
+
+                // 注入广告屏蔽
+                blockIframeAds();
+            }, 500);
+
+            // 如果是腾讯视频电视剧，尝试生成选集
+            if (seriesInfo.platform === 'qq' && seriesInfo.seriesId) {
+                generateQQEpisodes(seriesInfo.seriesId, seriesInfo.episodeId, listDiv);
+            } else if (seriesInfo.platform === 'iqiyi') {
+                // 爱奇艺 - 提示用户使用搜索功能获取选集
+                listDiv.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align:center; padding:10px; color:#666; font-size:13px;">
+                        💡 提示：想看其他集？试试在上方搜索框输入剧名搜索，可获取完整选集列表
+                    </div>
+                `;
+            } else {
+                // 其他平台也给提示
+                listDiv.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align:center; padding:10px; color:#666; font-size:13px;">
+                        💡 提示：如需选集功能，请在搜索框输入剧名搜索
+                    </div>
+                `;
+            }
+        }
+
+        // 生成腾讯视频选集按钮（简易版，基于URL规律）
+        function generateQQEpisodes(seriesId, currentEpId, listDiv) {
+            listDiv.innerHTML = '';
+
+            // 腾讯视频选集需要调用API获取，这里先提供手动输入方式
+            // 创建选集输入区
+            const inputArea = document.createElement('div');
+            inputArea.style.cssText = 'grid-column: 1/-1; margin-bottom: 10px;';
+            inputArea.innerHTML = `
+                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                    <span style="font-size:13px; color:#666;">📺 快速跳集：</span>
+                    <input type="number" id="epJumpInput" min="1" placeholder="输入集数" 
+                        style="width:80px; padding:6px 10px; border:1px solid #ddd; border-radius:6px; font-size:13px;">
+                    <button onclick="jumpToEpisode()" 
+                        style="padding:6px 12px; background:linear-gradient(135deg,#667eea,#764ba2); color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:13px;">
+                        跳转
+                    </button>
+                    <span style="font-size:12px; color:#999;">或粘贴其他集的链接</span>
+                </div>
+            `;
+            listDiv.appendChild(inputArea);
+
+            // 显示当前集数信息
+            const infoDiv = document.createElement('div');
+            infoDiv.style.cssText = 'grid-column: 1/-1; font-size:12px; color:#888; text-align:center;';
+            infoDiv.innerHTML = `当前剧集ID: ${seriesId} | 当前集: ${currentEpId}`;
+            listDiv.appendChild(infoDiv);
+        }
+
+        // 跳转到指定集数（通过搜索实现）
+        async function jumpToEpisode() {
+            const epNum = document.getElementById('epJumpInput')?.value;
+            if (!epNum || !currentSeriesInfo) {
+                updateStatus('⚠️ 请输入有效的集数', '#ffc107');
+                return;
+            }
+
+            updateStatus(`🔍 正在查找第${epNum}集...`, '#667eea');
+
+            // 使用搜索API查找剧集
+            // 由于腾讯视频的集数ID不是简单的数字，需要通过搜索来获取
+            // 这里给用户一个提示
+            updateStatus(`💡 建议：在搜索框输入剧名搜索，可获取完整选集`, '#667eea');
+        }
+
+        // 监听事件：粘贴自动解析 + 输入智能推荐
+        document.addEventListener('DOMContentLoaded', function () {
+            const input = document.getElementById('keyword');
+
+            // 输入变化时更新按钮推荐
+            input.addEventListener('input', updateButtonRecommendation);
+
+            // 粘贴事件
+            input.addEventListener('paste', function (e) {
+                // 延迟执行，等待粘贴内容填入
+                setTimeout(() => {
+                    const pastedText = input.value.trim();
+                    updateButtonRecommendation();
+                    // 如果粘贴的是URL，自动触发解析
+                    if (isUrl(pastedText)) {
+                        updateStatus('🔗 检测到视频链接，自动解析中...', '#667eea');
+                        setTimeout(() => doParse(), 300);
+                    }
+                }, 100);
+            });
+        });
+
+        // 搜索视频
+        async function searchVideo(keyword) {
+            updateStatus('🔍 正在全网搜索...', '#667eea');
+            const listDiv = document.getElementById('episodes');
+            listDiv.innerHTML = '';
+
+            try {
+                const res = await fetch(`/search?wd=${encodeURIComponent(keyword)}&rt=${currentRoute}`);
+                const data = await res.json();
+
+                if (data.error) {
+                    updateStatus('❌ ' + data.error, '#dc3545');
+                    return;
+                }
+
+                if (!data.list || data.list.length === 0) {
+                    updateStatus('😔 没有找到相关资源，换个关键词试试', '#ffc107');
+                    return;
+                }
+
+                const vod = data.list[0];
+                updateStatus(`✅ 找到: ${vod.vod_name}`, '#28a745');
+
+                showPlayer();
+                initPlayer();
+
+                // 解析选集
+                const vodPlayUrl = vod.vod_play_url;
+                let count = 0;
+
+                if (vodPlayUrl && typeof vodPlayUrl === 'string') {
+                    const playSources = vodPlayUrl.split('$$$');
+                    let targetPlayStr = '';
+
+                    for (const source of playSources) {
+                        if (source.includes('.m3u8')) {
+                            targetPlayStr = source;
+                            break;
+                        }
+                    }
+
+                    if (targetPlayStr) {
+                        const arr = targetPlayStr.split('#');
+
+                        arr.forEach((item) => {
+                            if (item.includes('$') && item.includes('.m3u8')) {
+                                const [name, url] = item.split('$');
+
+                                const btn = document.createElement('div');
+                                btn.className = 'ep-btn';
+                                btn.innerText = name;
+
+                                btn.onclick = () => {
+                                    dp.switchVideo({ url: url, type: 'hls' });
+                                    dp.play();
+                                    document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
+                                    btn.classList.add('active');
+                                    updateStatus(`▶️ 正在播放: ${name}`, '#28a745');
+                                };
+
+                                listDiv.appendChild(btn);
+                                count++;
+                            }
+                        });
+                    }
+                }
+
+                if (count > 0) {
+                    listDiv.children[0].click();
+                } else {
+                    updateStatus('⚠️ 资源不是m3u8格式，尝试粘贴网址解析', '#ffc107');
+                }
+
+            } catch (e) {
+                console.error('搜索失败:', e);
+                updateStatus('❌ 请求失败: ' + e.message, '#dc3545');
+            }
+        }
+
+        // 广告屏蔽功能
+        function blockIframeAds() {
+            const dplayerDiv = document.getElementById('dplayer');
+            const iframe = dplayerDiv.querySelector('iframe');
+
+            if (!iframe) return;
+
+            // 方法1: 使用MutationObserver监控DOM变化，移除广告元素
+            try {
+                iframe.addEventListener('load', function () {
+                    try {
+                        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+                        // 注入CSS隐藏常见广告元素
+                        const adBlockStyle = document.createElement('style');
+                        adBlockStyle.textContent = `
+                            /* 隐藏暂停广告 */
+                            .pause-ad, .pause_ad, .pauseAd, .video-ad, .video_ad,
+                            [class*="pause-ad"], [class*="pausead"], [class*="pause_ad"],
+                            [class*="ad-pause"], [class*="adpause"], [class*="ad_pause"],
+                            [class*="video-ad"], [class*="videoad"], [class*="video_ad"],
+                            [id*="pause-ad"], [id*="pausead"], [id*="pause_ad"],
+                            [id*="video-ad"], [id*="videoad"], [id*="video_ad"],
+                            .ad-overlay, .adOverlay, .ad_overlay,
+                            [class*="ad-overlay"], [class*="adoverlay"], [class*="ad_overlay"],
+                            .player-ad, .playerAd, .player_ad,
+                            [class*="player-ad"], [class*="playerad"], [class*="player_ad"],
+                            div[class*="advertisement"], div[class*="广告"],
+                            .pause-layer, .pauseLayer, [class*="pause-layer"],
+                            .pause-poster, .pausePoster, [class*="pause-poster"],
+                            .mask-layer, .maskLayer, [class*="mask"],
+                            a[target="_blank"]:not([class*="play"]),
+                            iframe[src*="ad"], iframe[src*="sponsor"],
+                            div[style*="z-index: 999"], div[style*="z-index:999"],
+                            div[style*="z-index: 9999"], div[style*="z-index:9999"],
+                            .pop, .popup, [class*="popup"], [class*="pop-"],
+                            .float, .floating, [class*="float"],
+                            img[onclick], a > img[src*="ad"],
+                            div[data-ad], span[data-ad] {
+                                display: none !important;
+                                visibility: hidden !important;
+                                pointer-events: none !important;
+                                opacity: 0 !important;
+                                width: 0 !important;
+                                height: 0 !important;
+                            }
+                            
+                            /* 确保视频可以正常点击 */
+                            video {
+                                pointer-events: auto !important;
+                            }
+                        `;
+                        iframeDoc.head.appendChild(adBlockStyle);
+
+                        // 周期性检测并移除广告
+                        const cleanAds = () => {
+                            const adSelectors = [
+                                '.pause-ad', '.pause_ad', '.pauseAd', '.video-ad',
+                                '[class*="pause-ad"]', '[class*="ad-overlay"]',
+                                '[class*="player-ad"]', 'a[target="_blank"]',
+                                'div[style*="z-index: 9999"]', '.pop', '.popup'
+                            ];
+
+                            adSelectors.forEach(selector => {
+                                try {
+                                    const ads = iframeDoc.querySelectorAll(selector);
+                                    ads.forEach(ad => {
+                                        // 检查是否是播放按钮等必要元素
+                                        if (!ad.classList.contains('play') &&
+                                            !ad.classList.contains('dplayer') &&
+                                            !ad.closest('.dplayer-video-wrap')) {
+                                            ad.style.display = 'none';
+                                            ad.style.visibility = 'hidden';
+                                            ad.remove();
+                                        }
+                                    });
+                                } catch (e) { }
+                            });
+                        };
+
+                        // 每秒检测一次
+                        setInterval(cleanAds, 1000);
+
+                        // 初次清理
+                        cleanAds();
+
+                        console.log('✅ 广告屏蔽已启用');
+                    } catch (e) {
+                        // 跨域限制，无法访问iframe内容
+                        console.log('⚠️ 跨域限制，使用备用方案');
+                    }
+                });
+            } catch (e) {
+                console.log('广告屏蔽初始化失败:', e);
+            }
+
+            // 方法2: 阻止新窗口打开（备用方案，即使跨域也能工作）
+            window.addEventListener('beforeunload', function (e) {
+                // 阻止页面跳转
+            });
+
+            // 阻止window.open
+            const originalOpen = window.open;
+            window.open = function (url, name, features) {
+                console.log('🚫 已阻止弹窗:', url);
+                return null;
+            };
+        }
+    </script>
+
+</body>
+
+</html>
