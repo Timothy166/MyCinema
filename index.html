@@ -431,6 +431,68 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
+        /* 网页全屏按钮 */
+        .player-controls {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .fullpage-btn {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .fullpage-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* 网页全屏模式 */
+        .fullpage-mode {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            z-index: 9999 !important;
+            background: #000 !important;
+            border-radius: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .fullpage-mode #dplayer {
+            height: calc(100vh - 60px) !important;
+            border-radius: 0 !important;
+        }
+
+        .fullpage-mode .player-controls {
+            position: fixed;
+            bottom: 10px;
+            right: 20px;
+            z-index: 10000;
+        }
+
+        .fullpage-mode .episodes-section {
+            display: none;
+        }
+
+        /* 退出全屏按钮样式 */
+        .exit-fullpage-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        }
+
         /* 选集区域 */
         .episodes-section {
             margin-top: 16px;
@@ -569,6 +631,12 @@
             <!-- 播放器区域 -->
             <div class="player-section" id="playerSection">
                 <div id="dplayer"></div>
+                <div class="player-controls">
+                    <button id="fullpageBtn" class="fullpage-btn" onclick="toggleFullpage()">
+                        <span id="fullpageIcon">⛶</span>
+                        <span id="fullpageText">网页全屏</span>
+                    </button>
+                </div>
                 <div class="episodes-section">
                     <div id="episodes" class="ep-grid"></div>
                 </div>
@@ -584,6 +652,38 @@
     <script>
         let dp = null;
         let currentRoute = 1;
+        let isFullpage = false;
+
+        // 网页全屏切换
+        function toggleFullpage() {
+            const playerSection = document.getElementById('playerSection');
+            const btn = document.getElementById('fullpageBtn');
+            const icon = document.getElementById('fullpageIcon');
+            const text = document.getElementById('fullpageText');
+
+            isFullpage = !isFullpage;
+
+            if (isFullpage) {
+                playerSection.classList.add('fullpage-mode');
+                btn.classList.add('exit-fullpage-btn');
+                icon.textContent = '✕';
+                text.textContent = '退出全屏';
+                document.body.style.overflow = 'hidden';
+            } else {
+                playerSection.classList.remove('fullpage-mode');
+                btn.classList.remove('exit-fullpage-btn');
+                icon.textContent = '⛶';
+                text.textContent = '网页全屏';
+                document.body.style.overflow = '';
+            }
+        }
+
+        // ESC键退出网页全屏
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && isFullpage) {
+                toggleFullpage();
+            }
+        });
 
         // 选择路线
         function selectRoute(route) {
