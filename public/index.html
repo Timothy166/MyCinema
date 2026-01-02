@@ -935,8 +935,32 @@
             });
         });
 
+        // 检测是否为静态环境（GitHub Pages等）
+        function isStaticHosting() {
+            const hostname = window.location.hostname;
+            return hostname.includes('github.io') ||
+                hostname.includes('netlify') ||
+                hostname.includes('vercel') ||
+                hostname.includes('pages.dev');
+        }
+
         // 搜索视频
         async function searchVideo(keyword) {
+            // 静态环境不支持搜索功能
+            if (isStaticHosting()) {
+                updateStatus('💡 静态网站暂不支持搜索功能，请直接粘贴视频链接解析', '#667eea');
+                const listDiv = document.getElementById('episodes');
+                listDiv.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align:center; padding:20px; color:#666;">
+                        <p style="font-size:14px; margin-bottom:10px;">📋 使用方法：</p>
+                        <p style="font-size:13px;">1. 点击上方平台按钮（爱奇艺/腾讯等）</p>
+                        <p style="font-size:13px;">2. 找到想看的视频，复制网址</p>
+                        <p style="font-size:13px;">3. 粘贴到搜索框，点击「解析链接」</p>
+                    </div>
+                `;
+                return;
+            }
+
             updateStatus('🔍 正在全网搜索...', '#667eea');
             const listDiv = document.getElementById('episodes');
             listDiv.innerHTML = '';
